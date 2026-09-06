@@ -39,7 +39,7 @@ spec:
       containers:
         - name: tempo
           image: grafana/tempo:latest
-          command: ["-config.file=/etc/tempo.yaml"]
+          args: ["-config.file=/etc/tempo.yaml"]
           ports:
             - containerPort: 3200
             - containerPort: 4317

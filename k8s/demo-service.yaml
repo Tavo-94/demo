@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-service
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: demo-service
 spec:
