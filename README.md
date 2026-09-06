@@ -126,6 +126,37 @@ Your entire stack is now operational!
 
 ---
 
+## 🐛 Troubleshooting & Debugging
+
+If a service isn't responding or a port-forward fails, use these standard Kubernetes debugging commands in your **WSL Terminal**.
+
+### 1. "Connection Refused" during Port-Forwarding
+If you run `kubectl port-forward` and receive a `failed to connect to localhost:xxxx inside namespace ... connection refused` error, **your cluster networking is fine.** This specifically means the application inside the pod has not started its web server yet, or it has silently crashed.
+- **Grafana on WSL2 Quirk:** Grafana 11+ downloads bundled plugins on startup. Because WSL2 overlay filesystems have slow I/O, Grafana's internal SQLite database locks up (`SQLITE_BUSY`), severely delaying the web server boot. **Fix:** Simply wait 1-2 minutes for the plugins to finish installing.
+
+### 2. Checking Pod Status
+Check if a pod is crashing (`CrashLoopBackOff`) or healthy (`Running`):
+```bash
+kubectl get pods -A
+```
+
+### 3. Tailing Logs
+To see exactly what a pod is doing (or why it hasn't bound to its port yet), follow its logs in real-time:
+```bash
+# Example: Follow Grafana's logs
+kubectl logs -l app=grafana -f
+```
+*(Press `Ctrl + C` to stop watching).*
+
+### 4. Debugging Argo CD State
+If you need to see why an Argo CD sync is stuck without using the web UI, or if you just want to access the UI again, forward the Argo CD server:
+```bash
+kubectl port-forward svc/argocd-server -n argocd 8081:443
+```
+Then visit `https://localhost:8081`.
+
+---
+
 ### Safe Shutdown
 **Terminal:** Windows PowerShell
 
