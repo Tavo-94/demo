@@ -44,3 +44,6 @@ This is the master directory for Spring Boot 4 development. **DO NOT** attempt t
 - **`multi-module-maven`**: Maven reactor structure and dependency management.
 - **`null-safety`**: JSpecify nullability constraints.
 - **`spring-boot-migration`**: Upgrading from Boot 3.x to Boot 4.
+
+### 🏗️ Infrastructure & Deployment
+- **`kubernetes-gitops-migration`**: Best practices for migrating to K3s + Argo CD, including CoreDNS patches for WSL2, GitOps Sync Waves, and manifest conventions.
